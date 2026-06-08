@@ -9,8 +9,8 @@ public record Team(String name) {
     }
 
     private static String normalize(String rawName) {
-        if (rawName.isBlank()) {
-            throw new IllegalArgumentException("Team name cannot be blank");
+        if (rawName == null || rawName.isBlank()) {
+            throw new IllegalArgumentException("Team name cannot be null or blank");
         }
 
         return Arrays.stream(rawName.trim().split("\\s+"))

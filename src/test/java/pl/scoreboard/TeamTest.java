@@ -7,9 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class TeamTest {
 
     @Test
-    void shouldNotAllowBlankTeamName() {
+    void shouldNotAllowBlankOrNullTeamName() {
         assertThrows(IllegalArgumentException.class, () -> new Team(" "));
         assertThrows(IllegalArgumentException.class, () -> new Team("   "));
+        assertThrows(IllegalArgumentException.class, () -> new Team(null));
     }
 
     @Test
