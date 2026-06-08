@@ -11,7 +11,16 @@ public class ScoreBoard {
     private final List<Match> matches = new ArrayList<>();
 
     public void startGame(String homeTeam, String awayTeam) {
+        validateTeamName(homeTeam);
+        validateTeamName(awayTeam);
+
         matches.add(new Match(homeTeam, awayTeam));
+    }
+
+    private void validateTeamName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Team name cannot be null or blank");
+        }
     }
 
     public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
