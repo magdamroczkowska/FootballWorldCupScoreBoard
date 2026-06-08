@@ -12,29 +12,23 @@ public class ScoreBoard {
 
     private final List<Match> matches = new ArrayList<>();
 
-    public void startGame(String homeTeam, String awayTeam) {
-        validateTeamName(homeTeam);
-        validateTeamName(awayTeam);
-
+    public void startGame(Team homeTeam, Team awayTeam) {
+        if (homeTeam == null || awayTeam == null) {
+            throw new IllegalArgumentException("Team cannot be null");
+        }
         validateIfTeamNamesAreNotTheSame(homeTeam, awayTeam);
         validateIfTeamIsNotAlreadyPlaying(homeTeam, awayTeam);
 
         matches.add(new Match(homeTeam, awayTeam));
     }
 
-    private void validateTeamName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Team name cannot be null or blank");
-        }
-    }
-
-    private static void validateIfTeamNamesAreNotTheSame(String homeTeam, String awayTeam) {
+    private static void validateIfTeamNamesAreNotTheSame(Team homeTeam, Team awayTeam) {
         if (homeTeam.equals(awayTeam)) {
             throw new IllegalArgumentException("Teams must be different");
         }
     }
 
-    private void validateIfTeamIsNotAlreadyPlaying(String homeTeam, String awayTeam) {
+    private void validateIfTeamIsNotAlreadyPlaying(Team homeTeam, Team awayTeam) {
         boolean teamAlreadyPlaying = matches.stream()
                 .flatMap(m -> Stream.of(m.getHomeTeam(), m.getAwayTeam()))
                 .anyMatch(team -> team.equals(homeTeam) || team.equals(awayTeam));
@@ -44,24 +38,24 @@ public class ScoreBoard {
         }
     }
 
-    public void updateScore(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+    public void updateScore(Team homeTeam, Team awayTeam, int homeScore, int awayScore) {
         Match match = findMatch(homeTeam, awayTeam);
         match.updateScore(homeScore, awayScore);
     }
 
-    private Match findMatch(String homeTeam, String awayTeam) {
+    private Match findMatch(Team homeTeam, Team awayTeam) {
         return matches.stream()
                 .filter(m -> m.getHomeTeam().equals(homeTeam) && m.getAwayTeam().equals(awayTeam))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Match not found"));
     }
 
-    public void finishGame(String homeTeam, String awayTeam) {
+    public void finishGame(Team homeTeam, Team awayTeam) {
         Match match = findMatch(homeTeam, awayTeam);
         matches.remove(match);
     }
 
-    public List<Match> getSummary() {
+    public List<Match> getSortedMatches() {
         return matches.stream()
                 .sorted(Comparator
                         .comparingInt((Match m) -> m.getHomeTeamScore() + m.getAwayTeamScore())

@@ -5,15 +5,15 @@ import lombok.Getter;
 @Getter
 public class Match {
 
-    private final String homeTeam;
-    private final String awayTeam;
+    private final Team homeTeam;
+    private final Team awayTeam;
 
     private int homeTeamScore;
     private int awayTeamScore;
 
     private final long createdAt = System.nanoTime();
 
-    public Match(String homeTeam, String awayTeam) {
+    public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
     }
