@@ -54,4 +54,9 @@ public class ScoreBoard {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Match not found"));
     }
+
+    public void finishGame(String homeTeam, String awayTeam) {
+        Match match = findMatch(homeTeam, awayTeam);
+        matches.remove(match);
+    }
 }
