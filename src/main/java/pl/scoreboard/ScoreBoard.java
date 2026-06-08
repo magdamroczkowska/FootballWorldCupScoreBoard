@@ -13,22 +13,26 @@ public class ScoreBoard {
     private final List<Match> matches = new ArrayList<>();
 
     public void startGame(Team homeTeam, Team awayTeam) {
-        if (homeTeam == null || awayTeam == null) {
-            throw new IllegalArgumentException("Team cannot be null");
-        }
-        validateIfTeamNamesAreNotTheSame(homeTeam, awayTeam);
-        validateIfTeamIsNotAlreadyPlaying(homeTeam, awayTeam);
+        validateTeamsNotNull(homeTeam, awayTeam);
+        validateTeamsAreDifferent(homeTeam, awayTeam);
+        validateTeamIsNotPlaying(homeTeam, awayTeam);
 
         matches.add(new Match(homeTeam, awayTeam));
     }
 
-    private static void validateIfTeamNamesAreNotTheSame(Team homeTeam, Team awayTeam) {
+    private static void validateTeamsNotNull(Team homeTeam, Team awayTeam) {
+        if (homeTeam == null || awayTeam == null) {
+            throw new IllegalArgumentException("Team cannot be null");
+        }
+    }
+
+    private static void validateTeamsAreDifferent(Team homeTeam, Team awayTeam) {
         if (homeTeam.equals(awayTeam)) {
             throw new IllegalArgumentException("Teams must be different");
         }
     }
 
-    private void validateIfTeamIsNotAlreadyPlaying(Team homeTeam, Team awayTeam) {
+    private void validateTeamIsNotPlaying(Team homeTeam, Team awayTeam) {
         boolean teamAlreadyPlaying = matches.stream()
                 .flatMap(m -> Stream.of(m.getHomeTeam(), m.getAwayTeam()))
                 .anyMatch(team -> team.equals(homeTeam) || team.equals(awayTeam));
@@ -39,6 +43,7 @@ public class ScoreBoard {
     }
 
     public void updateScore(Team homeTeam, Team awayTeam, int homeScore, int awayScore) {
+        validateTeamsNotNull(homeTeam, awayTeam);
         Match match = findMatch(homeTeam, awayTeam);
         match.updateScore(homeScore, awayScore);
     }
@@ -51,6 +56,7 @@ public class ScoreBoard {
     }
 
     public void finishGame(Team homeTeam, Team awayTeam) {
+        validateTeamsNotNull(homeTeam, awayTeam);
         Match match = findMatch(homeTeam, awayTeam);
         matches.remove(match);
     }

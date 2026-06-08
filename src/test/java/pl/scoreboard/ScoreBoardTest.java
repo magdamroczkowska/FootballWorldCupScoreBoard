@@ -78,6 +78,15 @@ class ScoreBoardTest {
     }
 
     @Test
+    void shouldNotAllowNullTeamsWhenUpdatingScore() {
+        assertThrows(IllegalArgumentException.class,
+                () -> scoreBoard.updateScore(null, new Team("Poland"), 1, 1));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> scoreBoard.updateScore(new Team("Portugal"), null, 1, 1));
+    }
+
+    @Test
     void shouldNotAllowNegativeScores() {
         scoreBoard.startGame(new Team("Mexico"), new Team("Canada"));
 
@@ -102,6 +111,16 @@ class ScoreBoardTest {
         assertThrows(IllegalArgumentException.class,
                 () -> scoreBoard.finishGame(new Team("Mexico"), new Team("Canada")));
     }
+
+    @Test
+    void shouldNotAllowNullTeamsWhenFinishingGame() {
+        assertThrows(IllegalArgumentException.class,
+                () -> scoreBoard.finishGame(null, new Team("Brazil")));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> scoreBoard.finishGame(new Team("Poland"), null));
+    }
+
 
     @Test
     void shouldReturnSummarySortedByTotalScoreAndCreationOrder() {
