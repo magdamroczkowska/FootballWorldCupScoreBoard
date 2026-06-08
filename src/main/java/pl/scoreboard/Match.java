@@ -11,6 +11,8 @@ public class Match {
     private int homeTeamScore;
     private int awayTeamScore;
 
+    private final long createdAt = System.nanoTime();
+
     public Match(String homeTeam, String awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;

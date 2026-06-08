@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.scoreboard.Match;
+import pl.scoreboard.ScoreBoard;
 
 import java.util.List;
 
@@ -64,8 +66,8 @@ class ScoreBoardTest {
         scoreBoard.updateScore("Mexico", "Canada", 0, 5);
 
         Match match = scoreBoard.getMatches().get(0);
-        assertEquals(0, match.getHomeScore());
-        assertEquals(5, match.getAwayScore());
+        assertEquals(0, match.getHomeTeamScore());
+        assertEquals(5, match.getAwayTeamScore());
     }
 
     @Test

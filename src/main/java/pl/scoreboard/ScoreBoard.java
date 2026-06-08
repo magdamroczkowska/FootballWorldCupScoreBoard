@@ -3,6 +3,7 @@ package pl.scoreboard;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -58,5 +59,15 @@ public class ScoreBoard {
     public void finishGame(String homeTeam, String awayTeam) {
         Match match = findMatch(homeTeam, awayTeam);
         matches.remove(match);
+    }
+
+    public List<Match> getSummary() {
+        return matches.stream()
+                .sorted(Comparator
+                        .comparingInt((Match m) -> m.getHomeTeamScore() + m.getAwayTeamScore())
+                        .reversed()
+                        .thenComparing(Match::getCreatedAt, Comparator.reverseOrder())
+                )
+                .toList();
     }
 }
