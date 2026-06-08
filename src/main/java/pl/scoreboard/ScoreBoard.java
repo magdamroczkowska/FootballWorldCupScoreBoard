@@ -1,5 +1,6 @@
 package pl.scoreboard;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,7 +11,12 @@ import java.util.stream.Stream;
 @Getter
 public class ScoreBoard {
 
+    @Getter(AccessLevel.NONE)
     private final List<Match> matches = new ArrayList<>();
+
+    public List<Match> getMatches() {
+        return List.copyOf(matches);
+    }
 
     public void startGame(Team homeTeam, Team awayTeam) {
         validateTeamsNotNull(homeTeam, awayTeam);
